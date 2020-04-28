@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".NewBookActivity">
+
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/add_a_new_book"
+        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorPrimary">
+    </TextView>
+
+    <EditText
+        android:id="@+id/bookNameEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
+        android:hint="@string/book_title"
+        android:inputType="textCapSentences"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/currentPageEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bookNameEdit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="5dp"
+        android:hint="@string/current_page"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:gravity="center_horizontal" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/haveReadCb"
+        android:layout_below="@id/currentPageEdit"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/completely_read"
+        android:textSize="18sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/submitBtn"
+        android:layout_below="@id/haveReadCb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/submit_book"
+        android:textColor="@color/colorPrimaryDark"
+        android:onClick="onSubmit"
+        />
+
+
+
+</RelativeLayout>
