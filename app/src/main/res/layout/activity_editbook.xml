@@ -25,9 +25,23 @@
         android:layout_marginHorizontal="25dp"
         android:layout_marginTop="50dp"
         android:gravity="center_horizontal"
-        android:hint="@string/book_title"
+        android:hint="@string/title_book"
         android:inputType="textCapSentences"
-        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:autofillHints="@string/title_book" />
+
+    <EditText
+        android:id="@+id/bookAuthorEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bookNameEdit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:hint="@string/author"
+        android:inputType="textCapWords"
         android:singleLine="true"
         android:textAlignment="center" />
 
@@ -35,7 +49,7 @@
         android:id="@+id/currentPageEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bookNameEdit"
+        android:layout_below="@id/bookAuthorEdit"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="25dp"
         android:layout_marginTop="5dp"
@@ -44,21 +58,48 @@
         android:textAlignment="center"
         android:gravity="center_horizontal" />
 
-    <CheckBox
+    <EditText
+        android:id="@+id/totalPagesEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentPageEdit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="5dp"
+        android:hint="@string/total_pages"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:gravity="center_horizontal" />
+
+    <EditText
+        android:id="@+id/bookDescEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/totalPagesEdit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="25dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:hint="@string/description"
+        android:inputType="textCapSentences"
+        android:textAlignment="center" />
+
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/haveReadCb"
-        android:layout_below="@id/currentPageEdit"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/bookDescEdit"
         android:layout_centerHorizontal="true"
-        android:text="@string/completely_read"
-        android:textSize="18sp"/>
+        android:layout_marginTop="5dp"
+        android:dropDownWidth="match_parent"
+        android:spinnerMode="dropdown"
+        android:prompt="@string/current_reading_state"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/submitBtn"
-        android:layout_below="@id/haveReadCb"
+        android:layout_below="@id/spinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/apply_changes"

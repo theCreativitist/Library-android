@@ -111,22 +111,28 @@ public class MainActivity extends AppCompatActivity {
                 readCounts.set(indexFromIntent, Integer.parseInt(currentPageFromIntent));
             }
         }*/
-
+        /*
         ArrayAdapter<String> adapterArray = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 items
-        );
+        ); */
 
         ArrayList<Book> books = new ArrayList<>();
         //books.add(new Book("Nicolas and Alexandra", "Robert K. Massei", "A Historical Book", "Finished", 445, 445));
-        String name, page;
+        String name, page, author, desc, tPage, state;
         for (int i=0; i<spIndex; i++){
-            name = sharedP.getString("Name"+i, "BOOK_NAME");
+            name = sharedP.getString("Name"+i, "Unnamed book");
             page = sharedP.getString("Page"+i, "0");
+            author = sharedP.getString("Author"+i, "Unknown artist");
+            desc = sharedP.getString("Desc"+i, "No description...");
+            tPage = sharedP.getString("Tpage"+i, "");
+            state = sharedP.getString("State"+i, "Wanna Read");
             if (page.equals(""))
                 page = "0";
-            books.add(new Book(name, "Unknown author", "A real good book.", "Finished", Integer.parseInt(page), 999));
+            if (tPage.equals(""))
+                tPage = "0";
+            books.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
         }
         initRecView(books);
 
@@ -223,4 +229,5 @@ public class MainActivity extends AppCompatActivity {
     //--todo use a Database
     //todo: add deleting feature
     //todo: get book information by an api from a service like goodreads or amazon
+    //todo: update NewBook and EditBook Activities
 }

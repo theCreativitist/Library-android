@@ -44,7 +44,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.bookAuthor.setText(books.get(position).getAuthor());
         holder.HaveRead.setText(books.get(position).getState());
         holder.currentPage.setText(books.get(position).getCurrentPageString());
-        holder.totalPages.setText(books.get(position).getTotalPagesString());
+        if (books.get(position).getTotalPagesString().equals("0")){
+            holder.pagesString.setText("");
+            holder.totalPages.setText("");
+        }
+        else {
+            holder.totalPages.setText(books.get(position).getTotalPagesString());
+        }
+
 
         holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -70,7 +77,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         //ImageView image;
-        TextView bookName, bookAuthor, HaveRead, currentPage, totalPages;
+        TextView bookName, bookAuthor, HaveRead, currentPage, totalPages, pagesString;
         RelativeLayout relativeLayout;
 
         public ViewHolder(View itemView){
@@ -83,6 +90,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             HaveRead = itemView.findViewById(R.id.listItemBookHaveRead);
             currentPage = itemView.findViewById(R.id.listItemBookCurrentPage);
             totalPages = itemView.findViewById(R.id.listItemBookTotalPages);
+            pagesString = itemView.findViewById(R.id.listItemBookTotalPagesString);
         }
     }
 
