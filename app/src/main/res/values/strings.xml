@@ -19,4 +19,13 @@
     <string name="submit_book">Submit book</string>
     <string name="edit_book">Edit book</string>
     <string name="apply_changes">apply changes</string>
+    <string name="apply">Apply</string>
+    <string name="book_image">book-image</string>
+    <string name="book_author">Book author</string>
+    <string name="finished">Finished</string>
+    <string name="current_page_colon">Current Page:</string>
+    <string name="page">page</string>
+    <string name="sample_number">123</string>
+    <string name="some">some</string>
+    <string name="pages">pages</string>
 </resources>

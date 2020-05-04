@@ -1,6 +1,7 @@
 package com.fmgames.library;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -32,13 +33,22 @@ public class NewBookActivity extends AppCompatActivity {
         currentPageStr = currentPageEdit.getText().toString();
         haveReadBool = haveReadCb.isChecked();
 
+        SharedPreferences sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
+        int indexFromSp = sharedP.getInt("index",0);
+        SharedPreferences.Editor editor = sharedP.edit();
+        editor.putString("Name"+indexFromSp, bookNameStr);
+        editor.putString("Page"+indexFromSp, currentPageStr);
+        editor.putInt("index",indexFromSp+1);
+        //editor.putBoolean("HaveRead"+indexFromSp, haveReadBool);
+        editor.commit();
+
         Intent i = new Intent(this, MainActivity.class);
-        if (!bookNameStr.equals("")) {
+        /*if (!bookNameStr.equals("")) {
             i.putExtra("Source", "NewBook");
             i.putExtra("Name", bookNameStr);
             i.putExtra("Page", currentPageStr);
             i.putExtra("HaveRead", haveReadBool);
-        }
+        }*/
         startActivity(i);
     }
 }
