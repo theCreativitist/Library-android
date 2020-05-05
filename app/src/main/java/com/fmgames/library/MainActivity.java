@@ -224,10 +224,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void toaster(String txt){ Toast.makeText(this, txt, Toast.LENGTH_SHORT).show(); }
 
-    //--TODO make a edit book activity
+
     //todo check material.io
-    //--todo use a Database
     //todo: add deleting feature
     //todo: get book information by an api from a service like goodreads or amazon
-    //todo: update NewBook and EditBook Activities
+    //todo: books catorization
+    //todo: getting the books cover images :: open library search api -> covers api
+
+    //--todo: update NewBook and EditBook Activities
+    //--todo use a Database
+    //--TODO make a edit book activity
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
@@ -11,7 +12,9 @@
         android:layout_height="150dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/book_image"
-        android:src="@drawable/bookcover2" />
+        android:src="@drawable/bookcover_w"
+        app:tintMode="multiply"
+        />
 
     <TextView
         android:id="@+id/listItemBookName"
@@ -60,6 +63,38 @@
         android:textSize="14sp"
         />
 
+    <ProgressBar
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_above="@id/listItemBookHaveRead"
+        android:layout_toEndOf="@id/listItemImageView"
+        android:layout_marginStart="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/percent"
+        android:layout_above="@id/listItemBookHaveRead"
+        android:layout_toEndOf="@id/progressBar"
+        android:text="PC"
+        android:layout_marginStart="5dp"
+        />
+
+    <TextView
+        android:id="@+id/listItemDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/listItemImageView"
+        android:layout_below="@id/listItemBookTotalPages"
+        android:text="@string/description"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        />
+
     <TextView
         android:id="@+id/listItemBookHaveRead"
         android:layout_width="wrap_content"
@@ -67,10 +102,10 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/listItemImageView"
         android:layout_alignBottom="@id/listItemImageView"
-        android:text="@string/finished"
-        android:layout_marginBottom="10dp"
-        android:textSize="18sp"
-        android:textColor="@color/green"
+        android:text="@string/wanna_read"
+        android:layout_marginBottom="4dp"
+        android:textSize="14sp"
+        android:textColor="@color/full_red"
         />
 
     <TextView

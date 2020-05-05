@@ -33,4 +33,5 @@
     <string name="total_pages">Total pages</string>
     <string name="description">Description</string>
     <string name="current_reading_state">Current reading state</string>
+    <string name="wanna_read">Wanna read</string>
 </resources>
