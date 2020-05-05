@@ -104,7 +104,7 @@
         android:layout_alignBottom="@id/listItemImageView"
         android:text="@string/wanna_read"
         android:layout_marginBottom="4dp"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textColor="@color/full_red"
         />
 

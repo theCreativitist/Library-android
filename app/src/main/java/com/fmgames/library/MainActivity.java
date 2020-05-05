@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void btnClick(View v) {
+    /*public void btnClick(View v) {
             int radioCheckedItem = radio.getCheckedRadioButtonId();
             switch (radioCheckedItem){
                 case R.id.radioBtnDefault:
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             //list.setVisibility(View.VISIBLE);
-    }
+    }*/
 
     public void toaster(String txt){ Toast.makeText(this, txt, Toast.LENGTH_SHORT).show(); }
 
