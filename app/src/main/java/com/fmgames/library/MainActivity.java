@@ -179,8 +179,10 @@ public class MainActivity extends AppCompatActivity {
             else if (name.equals(""))
                 name = "Unnamed Book";
             index = sharedP.getInt("SelfIndex"+i, -1);
-            if (index == -1)
+            if (index == -1){ //  EXP:___ For handling the situation in which the user updates the program and its data has not the prametre "SelfIndex"
                 editor.putInt("SelfIndex"+i, i);
+                editor.commit();
+            }
             page = sharedP.getString("Page"+i, "0");
             author = sharedP.getString("Author"+i, "Unknown artist");
             desc = sharedP.getString("Desc"+i, "No description...");
