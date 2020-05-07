@@ -71,6 +71,7 @@
         android:layout_above="@id/listItemBookHaveRead"
         android:layout_toEndOf="@id/listItemImageView"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="1dp"
         />
 
     <TextView
@@ -87,13 +88,14 @@
         android:id="@+id/listItemDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@id/listItemImageView"
         android:layout_below="@id/listItemBookTotalPages"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@id/listItemImageView"
+        android:maxWidth="180dp"
+        android:maxLines="1"
         android:text="@string/description"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp"
-        />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/listItemBookHaveRead"

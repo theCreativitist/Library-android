@@ -41,7 +41,7 @@ public class NewBookActivity extends AppCompatActivity {
 
     public void initSpinner() {
         ArrayList<String> spinnerValues = new ArrayList<>();
-        spinnerValues.add("Wanna Read");
+        spinnerValues.add("Wanna read");
         spinnerValues.add("Currently reading");
         spinnerValues.add("Completed");
 

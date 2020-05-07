@@ -15,10 +15,12 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,16 +28,24 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
 
     //private CheckBox cb;
-    private ListView list;
-    private RadioGroup radio;
+    //private ListView list;
+    //private RadioGroup radio;
     private FloatingActionButton fab;
     private RecyclerView recView;
+    private BottomNavigationView bottomNav;
 
     String bookNameFromIntent;
     String currentPageFromIntent;
     boolean haveReadFromIntent;
     String sourceFromIntent;
     int indexFromIntent;
+
+    public ArrayList<Book> readingBooks = new ArrayList<>();
+    public ArrayList<Book> wannaReadBooks = new ArrayList<>();
+    public ArrayList<Book> completedBooks = new ArrayList<>();
+    public ArrayList<Book> books = new ArrayList<>();
+
+    RecyclerViewAdapter recViewAdapter = new RecyclerViewAdapter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
         //cb = findViewById(R.id.cb);
         //list = findViewById(R.id.list);
-        radio = findViewById(R.id.radio);
+        //radio = findViewById(R.id.radio);
 
         initFab();
+
+        initBottomNav();
 
         //list.setVisibility(View.INVISIBLE);
 
@@ -118,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 items
         ); */
 
-        ArrayList<Book> books = new ArrayList<>();
+
         //books.add(new Book("Nicolas and Alexandra", "Robert K. Massei", "A Historical Book", "Finished", 445, 445));
         String name, page, author, desc, tPage, state;
         for (int i=0; i<spIndex; i++){
@@ -127,13 +139,27 @@ public class MainActivity extends AppCompatActivity {
             author = sharedP.getString("Author"+i, "Unknown artist");
             desc = sharedP.getString("Desc"+i, "No description...");
             tPage = sharedP.getString("Tpage"+i, "");
-            state = sharedP.getString("State"+i, "Wanna Read");
+            state = sharedP.getString("State"+i, "Wanna read");
             if (page.equals(""))
                 page = "0";
             if (tPage.equals(""))
                 tPage = "0";
             books.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
+            switch (state) {
+                case "Wanna read":
+                    wannaReadBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
+                    break;
+                case "Currently reading":
+                    readingBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
+                    break;
+                case "Completed":
+                    completedBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
+                    break;
+                default:
+                    break;
+            }
         }
+
         initRecView(books);
 
         /*
@@ -163,9 +189,33 @@ public class MainActivity extends AppCompatActivity {
         });*/
     }
 
+    public void initBottomNav() {
+        bottomNav = findViewById(R.id.bottomNav);
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.allBooksMenu:
+                        recViewAdapter.setBooks(books);
+                        return true;
+                    case R.id.readingMenu:
+                        recViewAdapter.setBooks(readingBooks);
+                        return true;
+                    case R.id.wannaReadMenu:
+                        recViewAdapter.setBooks(wannaReadBooks);
+                        return true;
+                    case R.id.completedMenu:
+                        recViewAdapter.setBooks(completedBooks);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+
     public void initRecView(ArrayList<Book> books) {
         recView = findViewById(R.id.recyclerView);
-        RecyclerViewAdapter recViewAdapter = new RecyclerViewAdapter(this);
         recViewAdapter.setBooks(books);
         recView.setAdapter(recViewAdapter);
         recView.setLayoutManager(new LinearLayoutManager(this));
@@ -185,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
-        inflator.inflate(R.menu.main_menu, menu);
+        inflator.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -193,13 +243,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.aboutMenu:
-                toaster("This program is made by Amirmahdi");
+                toaster("This program is developed by AmirMahdi!");
                 return true;
-            case R.id.newBookMenu:
-                //toaster("You are about to make a new book");
-                Intent i = new Intent(this, NewBookActivity.class);
-                startActivity(i);
-                return true;
+
             default:
                 toaster("Not Defiened");
                 return super.onOptionsItemSelected(item);
@@ -225,13 +271,15 @@ public class MainActivity extends AppCompatActivity {
     public void toaster(String txt){ Toast.makeText(this, txt, Toast.LENGTH_SHORT).show(); }
 
 
-    //todo check material.io
+
     //todo: add deleting feature
-    //todo: get book information by an api from a service like goodreads or amazon
-    //todo: books catorization
-    //todo: getting the books cover images :: open library search api -> covers api
+
+    //?todo: get book information by an api from a service like goodreads or amazon
+    //?todo: getting the books cover images :: open library search api -> covers api
+    //?todo check material.io
 
     //--todo: update NewBook and EditBook Activities
     //--todo use a Database
     //--TODO make a edit book activity
+    //--todo: books catorization
 }

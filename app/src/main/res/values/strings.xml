@@ -34,4 +34,7 @@
     <string name="description">Description</string>
     <string name="current_reading_state">Current reading state</string>
     <string name="wanna_read">Wanna read</string>
+    <string name="reading">Reading</string>
+    <string name="completed">Completed</string>
+    <string name="all_books">All books</string>
 </resources>

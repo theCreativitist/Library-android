@@ -43,7 +43,7 @@ public class EditBookActivity extends AppCompatActivity {
         spinner = findViewById(R.id.spinner);
 
         ArrayList<String> spinnerValues = new ArrayList<>();
-        spinnerValues.add("Wanna Read");
+        spinnerValues.add("Wanna read");
         spinnerValues.add("Currently reading");
         spinnerValues.add("Completed");
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerValues);

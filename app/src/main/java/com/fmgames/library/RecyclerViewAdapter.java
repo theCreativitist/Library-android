@@ -79,7 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         String stateStr = books.get(position).getState();
-        if (stateStr.equals("Wanna Read"))
+        if (stateStr.equals("Wanna read"))
             holder.HaveRead.setTextColor(Color.RED);
         else if (stateStr.equals("Currently reading"))
             holder.HaveRead.setTextColor(Color.BLUE);
