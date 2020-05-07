@@ -47,16 +47,21 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerViewAdapter recViewAdapter = new RecyclerViewAdapter(this);
 
+    SharedPreferences sharedP;
+    SharedPreferences.Editor editor;
+    int spIndex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
+        sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
+        editor = sharedP.edit();
         //String spName = sharedP.getString("Name", "BOOK_NAME");
         //String spPage = sharedP.getString("Page", "0");
         //boolean spHaveRead = sharedP.getBoolean("HaveRead", false);
-        int spIndex = sharedP.getInt("index",0);
+        spIndex = sharedP.getInt("index",0);
 
         //cb = findViewById(R.id.cb);
         //list = findViewById(R.id.list);
@@ -132,33 +137,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //books.add(new Book("Nicolas and Alexandra", "Robert K. Massei", "A Historical Book", "Finished", 445, 445));
-        String name, page, author, desc, tPage, state;
-        for (int i=0; i<spIndex; i++){
-            name = sharedP.getString("Name"+i, "Unnamed book");
-            page = sharedP.getString("Page"+i, "0");
-            author = sharedP.getString("Author"+i, "Unknown artist");
-            desc = sharedP.getString("Desc"+i, "No description...");
-            tPage = sharedP.getString("Tpage"+i, "");
-            state = sharedP.getString("State"+i, "Wanna read");
-            if (page.equals(""))
-                page = "0";
-            if (tPage.equals(""))
-                tPage = "0";
-            books.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
-            switch (state) {
-                case "Wanna read":
-                    wannaReadBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
-                    break;
-                case "Currently reading":
-                    readingBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
-                    break;
-                case "Completed":
-                    completedBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage)));
-                    break;
-                default:
-                    break;
-            }
-        }
+
+        loadData();
 
         initRecView(books);
 
@@ -187,6 +167,44 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });*/
+    }
+
+    public void loadData() {
+        String name, page, author, desc, tPage, state;
+        int index;
+        for (int i=0; i<spIndex; i++){
+            name = sharedP.getString("Name"+i, "Unnamed book");
+            if (name.equals("Unnamed book"))
+                continue;
+            else if (name.equals(""))
+                name = "Unnamed Book";
+            index = sharedP.getInt("SelfIndex"+i, -1);
+            if (index == -1)
+                editor.putInt("SelfIndex"+i, i);
+            page = sharedP.getString("Page"+i, "0");
+            author = sharedP.getString("Author"+i, "Unknown artist");
+            desc = sharedP.getString("Desc"+i, "No description...");
+            tPage = sharedP.getString("Tpage"+i, "");
+            state = sharedP.getString("State"+i, "Wanna read");
+            if (page.equals(""))
+                page = "0";
+            if (tPage.equals(""))
+                tPage = "0";
+            books.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+            switch (state) {
+                case "Wanna read":
+                    wannaReadBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+                    break;
+                case "Currently reading":
+                    readingBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+                    break;
+                case "Completed":
+                    completedBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public void initBottomNav() {
@@ -272,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //todo: add deleting feature
+    //todo: Fix deleting problems
 
     //?todo: get book information by an api from a service like goodreads or amazon
     //?todo: getting the books cover images :: open library search api -> covers api

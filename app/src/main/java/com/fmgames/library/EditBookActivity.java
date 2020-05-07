@@ -1,5 +1,6 @@
 package com.fmgames.library;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,12 +13,14 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditBookActivity extends AppCompatActivity {
     private static final String TAG = "EditBookActivity";
 
     SharedPreferences sharedP;
+    SharedPreferences.Editor editor;
 
     int indexFromIntent;
 
@@ -53,6 +56,7 @@ public class EditBookActivity extends AppCompatActivity {
         //pageEdit.setText(pageFromIntent);
 
         sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
+        editor = sharedP.edit();
 
         nameEdit.setText(sharedP.getString("Name"+indexFromIntent, ""));
         pageEdit.setText(sharedP.getString("Page"+indexFromIntent, ""));
@@ -80,25 +84,47 @@ public class EditBookActivity extends AppCompatActivity {
         Log.d(TAG, "XXXXXXX___ indexfromindent in onSubmit of editbookactivity = "+indexFromIntent);
         int indexInt = indexFromIntent;
 
-        SharedPreferences.Editor editor = sharedP.edit();
+
         editor.putString("Name"+indexInt, bookNameStr);
         editor.putString("Page"+indexInt, currentPageStr);
         editor.putString("Author"+indexInt, authorStr);
         editor.putString("Tpage"+indexInt, totalPagesStr);
         editor.putString("Desc"+indexInt, descStr);
         editor.putString("State"+indexInt, stateStr);
+        //editor.putInt("SelfIndex"+indexInt, indexInt);
         editor.commit();
 
         Intent i = new Intent(this, MainActivity.class);
-        /*if (!bookNameStr.equals("")) {
-            i.putExtra("Source", "EditBook");
-            i.putExtra("Name", bookNameStr);
-            i.putExtra("Page", currentPageStr);
-            i.putExtra("HaveRead", haveReadBool);
-            i.putExtra("Index", indexFromIntent);
-            //System.out.println("XXX__ indexFromIndent in editbook passed = "+ indexFromIntent);
-        }*/
         startActivity(i);
+    }
+
+    public void onDelete (View v){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Deleting a book");
+        builder.setMessage("Are you sure you want to delete this book?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                editor.remove("Name"+indexFromIntent);
+                editor.remove("Page"+indexFromIntent);
+                editor.remove("Author"+indexFromIntent);
+                editor.remove("Tpage"+indexFromIntent);
+                editor.remove("Desc"+indexFromIntent);
+                editor.remove("State"+indexFromIntent);
+                editor.remove("SelfIndex"+indexFromIntent);
+                editor.commit();
+                Intent in = new Intent(EditBookActivity.this, MainActivity.class);
+                startActivity(in);
+            }
+        })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        builder.create().show();
     }
 
 }

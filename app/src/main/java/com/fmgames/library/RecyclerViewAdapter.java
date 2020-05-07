@@ -27,6 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
     ArrayList<String> colors = new ArrayList<>();
     Random random = new Random();
+    int lastRand = 0;
 
 
     public RecyclerViewAdapter(Context context) {
@@ -86,15 +87,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         else if (stateStr.equals("Completed"))
             holder.HaveRead.setTextColor(context.getResources().getColor(R.color.green));
 
-        int randColor = Color.parseColor(colors.get(random.nextInt(colors.size())));
+        int randColor;
+        do {
+            randColor = Color.parseColor(colors.get(random.nextInt(colors.size())));
+        } while (randColor == lastRand);
+        lastRand = randColor;
         holder.image.setColorFilter(randColor, android.graphics.PorterDuff.Mode.MULTIPLY);
 
         holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 Intent ebIntent = new Intent(context, EditBookActivity.class);
-                ebIntent.putExtra("Index", position);
-                //ebIntent.putExtra("HaveRead", haveReadBool);
+                ebIntent.putExtra("Index", books.get(position).getIndex());
                 context.startActivity(ebIntent);
                 return true;
             }

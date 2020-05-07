@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -22,7 +21,6 @@ public class NewBookActivity extends AppCompatActivity {
     String bookNameStr;
     String currentPageStr;
     String authorStr, descStr, totalPagesStr, stateStr;
-    boolean haveReadBool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +55,6 @@ public class NewBookActivity extends AppCompatActivity {
         totalPagesStr = totalPagesEdit.getText().toString();
         stateStr = spinner.getSelectedItem().toString();
 
-        //haveReadBool = haveReadCb.isChecked();
-
         SharedPreferences sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
         int indexFromSp = sharedP.getInt("index",0);
         SharedPreferences.Editor editor = sharedP.edit();
@@ -68,17 +64,11 @@ public class NewBookActivity extends AppCompatActivity {
         editor.putString("Desc"+indexFromSp, descStr);
         editor.putString("Tpage"+indexFromSp, totalPagesStr);
         editor.putString("State"+indexFromSp, stateStr);
+        editor.putInt("SelfIndex"+indexFromSp, indexFromSp);
         editor.putInt("index",indexFromSp+1);
-        //editor.putBoolean("HaveRead"+indexFromSp, haveReadBool);
         editor.commit();
 
         Intent i = new Intent(this, MainActivity.class);
-        /*if (!bookNameStr.equals("")) {
-            i.putExtra("Source", "NewBook");
-            i.putExtra("Name", bookNameStr);
-            i.putExtra("Page", currentPageStr);
-            i.putExtra("HaveRead", haveReadBool);
-        }*/
         startActivity(i);
     }
 }

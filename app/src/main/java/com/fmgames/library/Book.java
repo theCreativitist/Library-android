@@ -10,14 +10,16 @@ public class Book {
     private String state;
     private int currentPage;
     private int totalPages;
+    private int index;
 
-    public Book(String title, String author, String description, String state, int currentPage, int totalPages) {
+    public Book(String title, String author, String description, String state, int currentPage, int totalPages, int index) {
         this.title = title;
         this.author = author;
         this.description = description;
         this.state = state;
         this.currentPage = currentPage;
         this.totalPages = totalPages;
+        this.index = index;
     }
 
     public String getTitle() {
@@ -74,6 +76,14 @@ public class Book {
 
     public void setTotalPages(int totalPages) {
         this.totalPages = totalPages;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     @Override

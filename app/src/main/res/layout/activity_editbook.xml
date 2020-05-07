@@ -108,4 +108,16 @@
         android:onClick="onSubmit"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteBtn"
+        android:layout_below="@id/submitBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="delete"
+        android:textColor="@color/full_red"
+        android:onClick="onDelete"
+        />
+
 </RelativeLayout>
