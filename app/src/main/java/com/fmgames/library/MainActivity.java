@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        
         sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
         editor = sharedP.edit();
         //String spName = sharedP.getString("Name", "BOOK_NAME");
@@ -276,7 +276,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
     /*public void btnClick(View v) {
             int radioCheckedItem = radio.getCheckedRadioButtonId();
             switch (radioCheckedItem){
@@ -298,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //TODO: image compression in 'editbookActivity' and 'newbookActivity' image picker
+
     //TODO: beautify editbook and newbook layouts
 
     //?todo: get book information by an api from a service like goodreads or amazon
@@ -310,4 +309,5 @@ public class MainActivity extends AppCompatActivity {
     //--TODO make a edit book activity
     //--todo: books catorization
     //--todo: Fix deleting problems
+    //--TODO: image compression in 'editbookActivity' and 'newbookActivity' image picker
 }

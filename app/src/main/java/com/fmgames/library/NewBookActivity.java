@@ -102,6 +102,10 @@ public class NewBookActivity extends AppCompatActivity {
 
         if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK && data != null){
             Uri imagePath = data.getData();
+            final int takeFlags = data.getFlags()
+                    & (Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            getContentResolver().takePersistableUriPermission(imagePath, takeFlags);
             coverUriStr = imagePath.toString();
             isCoverChanged = true;
             imageButton.setImageURI(coverUriStr);
@@ -111,6 +115,8 @@ public class NewBookActivity extends AppCompatActivity {
     public void onAddCover(View v){
         Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         i.setType("image/*");
+        i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        i.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(i, GET_FROM_GALLERY);
     }
 }
