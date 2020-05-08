@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,16 +78,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.HaveRead.setText(books.get(position).getState());
         holder.currentPage.setText(books.get(position).getCurrentPageString());
         holder.desc.setText(books.get(position).getDescription());
-        if (books.get(position).getTotalPagesString().equals("0")){
+        if (books.get(position).getTotalPagesString().equals("0")) {
             holder.pagesString.setText("");
             holder.totalPages.setText("");
             holder.progressBar.setVisibility(View.INVISIBLE);
             holder.percent.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             holder.totalPages.setText(books.get(position).getTotalPagesString());
-            float percentage = (books.get(position).getCurrentPage() * 1.0f /books.get(position).getTotalPages()) * 100;
-            String percentStr = String.format("%.0f",percentage) + "%";
+            float percentage = (books.get(position).getCurrentPage() * 1.0f / books.get(position).getTotalPages()) * 100;
+            String percentStr = String.format("%.0f", percentage) + "%";
             holder.percent.setText(percentStr);
         }
 
@@ -99,11 +99,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.HaveRead.setTextColor(context.getResources().getColor(R.color.green));
 
 
-
         //holder.draweeView.setImageURI(Uri.parse(books.get(position).getCoverUri()));
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(books.get(position).getCoverUri()))
-                .setResizeOptions(new ResizeOptions(300, 450))
-                .build();
+                    .setResizeOptions(new ResizeOptions(250, 375))
+                    .build();
         holder.draweeView.setController(
                 Fresco.newDraweeControllerBuilder()
                         .setOldController(holder.draweeView.getController())

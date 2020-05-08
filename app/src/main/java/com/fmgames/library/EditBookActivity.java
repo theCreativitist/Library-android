@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -16,8 +17,16 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
@@ -33,9 +42,11 @@ public class EditBookActivity extends AppCompatActivity {
 
     int indexFromIntent;
 
+    boolean isCoverChanged = false;
+
     private EditText nameEdit, pageEdit, authorEdit, totalPagesEdit, descEdit;
     private Spinner spinner;
-    private ImageButton imageButton;
+    private SimpleDraweeView imageButton;
 
     String bookNameStr, currentPageStr, authorStr, totalPagesStr, descStr, stateStr;
     String coverUriStr;
@@ -84,7 +95,24 @@ public class EditBookActivity extends AppCompatActivity {
         else if (stateStr.equals("Completed"))
             spinner.setSelection(2);
 
-        imageButton.setImageURI(Uri.parse(sharedP.getString("CoverUri"+indexFromIntent, "")));
+        Uri coverUri = Uri.parse(sharedP.getString("CoverUri"+indexFromIntent, ""));
+        //imageButton.setImageURI(coverUri);
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(coverUri)
+                .setResizeOptions(new ResizeOptions(250, 375))
+                .build();
+        imageButton.setController(
+                Fresco.newDraweeControllerBuilder()
+                        .setOldController(imageButton.getController())
+                        .setImageRequest(request)
+                        .build());
+        /*InputStream is = null;
+        try {
+            is = getContentResolver().openInputStream(coverUri);
+        } catch (FileNotFoundException | SecurityException e) {
+            Log.d(TAG, "EXCEPTION: "+e);
+        }
+        if (is != null)
+            imageButton.setImageURI(coverUri);*/
     }
 
     public void onSubmit(View v){
@@ -105,8 +133,8 @@ public class EditBookActivity extends AppCompatActivity {
         editor.putString("Tpage"+indexInt, totalPagesStr);
         editor.putString("Desc"+indexInt, descStr);
         editor.putString("State"+indexInt, stateStr);
-        editor.putString("CoverUri"+indexInt, coverUriStr);
-        //editor.putInt("SelfIndex"+indexInt, indexInt);
+        if (isCoverChanged)
+            editor.putString("CoverUri"+indexInt, coverUriStr);
         editor.commit();
 
         Intent i = new Intent(this, MainActivity.class);
@@ -150,14 +178,9 @@ public class EditBookActivity extends AppCompatActivity {
 
         if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK && data != null){
             Uri imagePath = data.getData();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagePath);
-                imageButton.setImageBitmap(bitmap);
-                coverUriStr = imagePath.toString();
-            } catch (IOException e){
-                e.printStackTrace();
-            }
+            coverUriStr = imagePath.toString();
+            isCoverChanged = true;
+            imageButton.setImageURI(coverUriStr);
         }
     }
 

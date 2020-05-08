@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fmgames.library">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:icon="@mipmap/ic_library"
         android:label="@string/app_name"
@@ -18,8 +21,6 @@
         <activity android:name=".NewBookActivity"></activity>
         <activity android:name=".EditBookActivity"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 
 </manifest>

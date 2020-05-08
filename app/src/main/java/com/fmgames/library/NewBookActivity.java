@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class NewBookActivity extends AppCompatActivity {
     private static final int GET_FROM_GALLERY = 99;
     private EditText bookNameEdit, currentPageEdit, authorEdit, descEdit, totalPagesEdit;
     private Spinner spinner;
-    ImageButton imageButton;
+    SimpleDraweeView imageButton;
 
     String bookNameStr;
     String currentPageStr;
@@ -36,6 +38,8 @@ public class NewBookActivity extends AppCompatActivity {
     SharedPreferences sharedP;
     SharedPreferences.Editor editor;
     int indexFromSp;
+
+    boolean isCoverChanged = false;
 
 
     @Override
@@ -98,14 +102,9 @@ public class NewBookActivity extends AppCompatActivity {
 
         if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK && data != null){
             Uri imagePath = data.getData();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagePath);
-                imageButton.setImageBitmap(bitmap);
-                coverUriStr = imagePath.toString();
-            } catch (IOException e){
-                e.printStackTrace();
-        }
+            coverUriStr = imagePath.toString();
+            isCoverChanged = true;
+            imageButton.setImageURI(coverUriStr);
         }
     }
 
