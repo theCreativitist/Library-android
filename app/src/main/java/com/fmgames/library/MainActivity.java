@@ -170,17 +170,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        String name, page, author, desc, tPage, state;
+        String name, page, author, desc, tPage, state, coverUri;
         int index;
         for (int i=0; i<spIndex; i++){
             name = sharedP.getString("Name"+i, "Unnamed book");
             if (name.equals("Unnamed book"))
                 continue;
             else if (name.equals(""))
-                name = "Unnamed Book";
+                name = "Unnamed";
             index = sharedP.getInt("SelfIndex"+i, -1);
             if (index == -1){ //  EXP:___ For handling the situation in which the user updates the program and its data has not the prametre "SelfIndex"
                 editor.putInt("SelfIndex"+i, i);
+                editor.commit();
+            }
+            coverUri = sharedP.getString("CoverUri"+i, "");
+            if (coverUri.equals("")){
+                editor.putString("CoverUri"+i, "");
                 editor.commit();
             }
             page = sharedP.getString("Page"+i, "0");
@@ -192,16 +197,16 @@ public class MainActivity extends AppCompatActivity {
                 page = "0";
             if (tPage.equals(""))
                 tPage = "0";
-            books.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+            books.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
             switch (state) {
                 case "Wanna read":
-                    wannaReadBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+                    wannaReadBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
                     break;
                 case "Currently reading":
-                    readingBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+                    readingBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
                     break;
                 case "Completed":
-                    completedBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index));
+                    completedBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
                     break;
                 default:
                     break;
@@ -292,7 +297,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //todo: Fix deleting problems
+
+    //TODO: image compression in 'editbookActivity' and 'newbookActivity' image picker
+    //TODO: beautify editbook and newbook layouts
 
     //?todo: get book information by an api from a service like goodreads or amazon
     //?todo: getting the books cover images :: open library search api -> covers api
@@ -302,4 +309,5 @@ public class MainActivity extends AppCompatActivity {
     //--todo use a Database
     //--TODO make a edit book activity
     //--todo: books catorization
+    //--todo: Fix deleting problems
 }

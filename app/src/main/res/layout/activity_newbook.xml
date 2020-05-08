@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".NewBookActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+
+<RelativeLayout
+    tools:context=".NewBookActivity"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
 
     <TextView
         android:id="@+id/txt2"
@@ -16,20 +20,33 @@
         android:textColor="@color/colorPrimary">
     </TextView>
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/txt2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="#8316D0FF"
+        android:contentDescription="@string/set_book_image"
+        android:onClick="onAddCover"
+        android:scaleType="fitCenter"
+        android:src="@drawable/cover_edit" />
+
     <EditText
         android:id="@+id/bookNameEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt2"
+        android:layout_below="@id/imageButton"
         android:layout_centerHorizontal="true"
         android:layout_marginHorizontal="25dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints="@string/title_book"
         android:gravity="center_horizontal"
         android:hint="@string/title_book"
         android:inputType="textCapSentences"
         android:singleLine="true"
-        android:textAlignment="center"
-        android:autofillHints="@string/title_book" />
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/bookAuthorEdit"
@@ -99,17 +116,17 @@
         />
 
     <Button
+        android:id="@+id/submitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/submitBtn"
         android:layout_below="@id/spinner"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="@string/submit_book"
-        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="5dp"
         android:onClick="onSubmit"
-        />
-
-
+        android:text="@string/submit_book"
+        android:textColor="@color/colorPrimaryDark" />
 
 </RelativeLayout>
+
+</ScrollView>

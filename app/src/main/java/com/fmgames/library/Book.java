@@ -8,11 +8,12 @@ public class Book {
     private String author;
     private String description;
     private String state;
+    private String coverUri;
     private int currentPage;
     private int totalPages;
     private int index;
 
-    public Book(String title, String author, String description, String state, int currentPage, int totalPages, int index) {
+    public Book(String title, String author, String description, String state, int currentPage, int totalPages, int index, String coverUri) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -20,6 +21,15 @@ public class Book {
         this.currentPage = currentPage;
         this.totalPages = totalPages;
         this.index = index;
+        this.coverUri = coverUri;
+    }
+
+    public String getCoverUri() {
+        return coverUri;
+    }
+
+    public void setCoverUri(String coverUri) {
+        this.coverUri = coverUri;
     }
 
     public String getTitle() {

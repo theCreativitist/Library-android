@@ -2,25 +2,41 @@ package com.fmgames.library;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Interpolator;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class NewBookActivity extends AppCompatActivity {
 
+    private static final int GET_FROM_GALLERY = 99;
     private EditText bookNameEdit, currentPageEdit, authorEdit, descEdit, totalPagesEdit;
     private Spinner spinner;
-
+    ImageButton imageButton;
 
     String bookNameStr;
     String currentPageStr;
     String authorStr, descStr, totalPagesStr, stateStr;
+    String coverUriStr;
+
+    SharedPreferences sharedP;
+    SharedPreferences.Editor editor;
+    int indexFromSp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +49,13 @@ public class NewBookActivity extends AppCompatActivity {
         authorEdit = findViewById(R.id.bookAuthorEdit);
         descEdit = findViewById(R.id.bookDescEdit);
         totalPagesEdit = findViewById(R.id.totalPagesEdit);
+        imageButton = findViewById(R.id.imageButton);
 
         initSpinner();
+
+        sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
+        editor = sharedP.edit();
+        indexFromSp = sharedP.getInt("index",0);
     }
 
     public void initSpinner() {
@@ -55,20 +76,42 @@ public class NewBookActivity extends AppCompatActivity {
         totalPagesStr = totalPagesEdit.getText().toString();
         stateStr = spinner.getSelectedItem().toString();
 
-        SharedPreferences sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
-        int indexFromSp = sharedP.getInt("index",0);
-        SharedPreferences.Editor editor = sharedP.edit();
         editor.putString("Name"+indexFromSp, bookNameStr);
         editor.putString("Page"+indexFromSp, currentPageStr);
         editor.putString("Author"+indexFromSp, authorStr);
         editor.putString("Desc"+indexFromSp, descStr);
         editor.putString("Tpage"+indexFromSp, totalPagesStr);
         editor.putString("State"+indexFromSp, stateStr);
+        editor.putString("CoverUri"+indexFromSp, coverUriStr);
         editor.putInt("SelfIndex"+indexFromSp, indexFromSp);
         editor.putInt("index",indexFromSp+1);
         editor.commit();
 
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GET_FROM_GALLERY && resultCode == RESULT_OK && data != null){
+            Uri imagePath = data.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagePath);
+                imageButton.setImageBitmap(bitmap);
+                coverUriStr = imagePath.toString();
+            } catch (IOException e){
+                e.printStackTrace();
+        }
+        }
+    }
+
+    public void onAddCover(View v){
+        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        i.setType("image/*");
+        startActivityForResult(i, GET_FROM_GALLERY);
     }
 }

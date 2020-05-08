@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Library</string>
+    <string name="app_name">My Library</string>
     <string name="title">My Library!</string>
     <string name="not_bot">I\'m not a bot!</string>
     <string name="verify">Verify</string>
@@ -37,4 +37,6 @@
     <string name="reading">Reading</string>
     <string name="completed">Completed</string>
     <string name="all_books">All books</string>
+    <string name="set_book_image">Set Book Image</string>
+    <string name="delete">delete</string>
 </resources>

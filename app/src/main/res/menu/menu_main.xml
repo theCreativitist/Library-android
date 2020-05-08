@@ -5,7 +5,7 @@
     <item
         android:title="@string/about"
         app:showAsAction="ifRoom"
-        android:icon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/ic_library"
         android:id="@+id/aboutMenu"
         />
 

@@ -1,8 +1,12 @@
 package com.fmgames.library;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +15,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -52,6 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Fresco.initialize(context);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_recyclerview, null);
         ViewHolder holder = new ViewHolder(view);
         return holder;
@@ -87,12 +98,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         else if (stateStr.equals("Completed"))
             holder.HaveRead.setTextColor(context.getResources().getColor(R.color.green));
 
-        int randColor;
-        do {
-            randColor = Color.parseColor(colors.get(random.nextInt(colors.size())));
-        } while (randColor == lastRand);
-        lastRand = randColor;
-        holder.image.setColorFilter(randColor, android.graphics.PorterDuff.Mode.MULTIPLY);
+
+
+        //holder.draweeView.setImageURI(Uri.parse(books.get(position).getCoverUri()));
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(Uri.parse(books.get(position).getCoverUri()))
+                .setResizeOptions(new ResizeOptions(300, 450))
+                .build();
+        holder.draweeView.setController(
+                Fresco.newDraweeControllerBuilder()
+                        .setOldController(holder.draweeView.getController())
+                        .setImageRequest(request)
+                        .build());
+        /*else {
+            int randColor;
+            do {
+                randColor = Color.parseColor(colors.get(random.nextInt(colors.size())));
+            } while (randColor == lastRand);
+            lastRand = randColor;
+            holder.draweeView.setColorFilter(randColor, android.graphics.PorterDuff.Mode.MULTIPLY);
+        }*/
+
 
         holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -118,15 +143,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView image;
         TextView bookName, bookAuthor, HaveRead, currentPage, totalPages, pagesString, percent, desc;
         RelativeLayout relativeLayout;
         ProgressBar progressBar;
+        SimpleDraweeView draweeView;
 
         public ViewHolder(View itemView){
             super(itemView);
 
-            image = itemView.findViewById(R.id.listItemImageView);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
             bookName = itemView.findViewById(R.id.listItemBookName);
             bookAuthor = itemView.findViewById(R.id.listItemBookAuthor);
@@ -137,6 +161,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             progressBar = itemView.findViewById(R.id.progressBar);
             percent = itemView.findViewById(R.id.percent);
             desc = itemView.findViewById(R.id.listItemDesc);
+            draweeView = itemView.findViewById(R.id.listItemImageView);
         }
     }
 

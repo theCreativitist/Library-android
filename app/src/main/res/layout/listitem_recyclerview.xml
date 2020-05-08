@@ -6,15 +6,13 @@
     android:padding="5dp"
     android:id="@+id/relativeLayout">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/listItemImageView"
         android:layout_width="110dp"
         android:layout_height="150dp"
-        android:adjustViewBounds="true"
         android:contentDescription="@string/book_image"
-        android:src="@drawable/bookcover_w"
-        app:tintMode="multiply"
-        />
+        app:actualImageScaleType="fitCenter"
+        app:placeholderImage="@drawable/bookcover2" />
 
     <TextView
         android:id="@+id/listItemBookName"
