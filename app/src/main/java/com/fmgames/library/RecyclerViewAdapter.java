@@ -75,7 +75,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.bookName.setText(books.get(position).getTitle());
         holder.bookAuthor.setText(books.get(position).getAuthor());
-        holder.HaveRead.setText(books.get(position).getState());
         holder.currentPage.setText(books.get(position).getCurrentPageString());
         holder.desc.setText(books.get(position).getDescription());
         if (books.get(position).getTotalPagesString().equals("0")) {
@@ -84,19 +83,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.progressBar.setVisibility(View.INVISIBLE);
             holder.percent.setVisibility(View.INVISIBLE);
         } else {
+            holder.progressBar.setVisibility(View.VISIBLE);
+            holder.percent.setVisibility(View.VISIBLE);
+            holder.totalPages.setText(context.getResources().getString(R.string.pages));
             holder.totalPages.setText(books.get(position).getTotalPagesString());
             float percentage = (books.get(position).getCurrentPage() * 1.0f / books.get(position).getTotalPages()) * 100;
             String percentStr = String.format("%.0f", percentage) + "%";
             holder.percent.setText(percentStr);
         }
 
-        String stateStr = books.get(position).getState();
-        if (stateStr.equals("Wanna read"))
+        int stateInt = books.get(position).getState();
+        if (stateInt == 0){
             holder.HaveRead.setTextColor(Color.RED);
-        else if (stateStr.equals("Currently reading"))
+            holder.HaveRead.setText(context.getString(R.string.wanna_read));
+        }
+        else if (stateInt == 1){
             holder.HaveRead.setTextColor(Color.BLUE);
-        else if (stateStr.equals("Completed"))
+            holder.HaveRead.setText(context.getString(R.string.reading));
+        }
+        else if (stateInt == 2){
             holder.HaveRead.setTextColor(context.getResources().getColor(R.color.green));
+            holder.HaveRead.setText(context.getString(R.string.completed));
+        }
 
 
         //holder.draweeView.setImageURI(Uri.parse(books.get(position).getCoverUri()));

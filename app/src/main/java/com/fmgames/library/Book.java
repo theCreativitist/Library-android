@@ -7,13 +7,13 @@ public class Book {
     private String title;
     private String author;
     private String description;
-    private String state;
+    private int state;
     private String coverUri;
     private int currentPage;
     private int totalPages;
     private int index;
 
-    public Book(String title, String author, String description, String state, int currentPage, int totalPages, int index, String coverUri) {
+    public Book(String title, String author, String description, int state, int currentPage, int totalPages, int index, String coverUri) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -56,11 +56,11 @@ public class Book {
         this.description = description;
     }
 
-    public String getState() {
+    public int getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(int state) {
         this.state = state;
     }
 

@@ -48,11 +48,13 @@ public class EditBookActivity extends AppCompatActivity {
     private Spinner spinner;
     private SimpleDraweeView imageButton;
 
-    String bookNameStr, currentPageStr, authorStr, totalPagesStr, descStr, stateStr;
+    String bookNameStr, currentPageStr, authorStr, totalPagesStr, descStr;
     String coverUriStr;
+    int stateInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        Fresco.initialize(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editbook);
 
@@ -69,9 +71,9 @@ public class EditBookActivity extends AppCompatActivity {
         imageButton = findViewById(R.id.imageButton);
 
         ArrayList<String> spinnerValues = new ArrayList<>();
-        spinnerValues.add("Wanna read");
-        spinnerValues.add("Currently reading");
-        spinnerValues.add("Completed");
+        spinnerValues.add(getString(R.string.wanna_read));
+        spinnerValues.add(getString(R.string.reading));
+        spinnerValues.add(getString(R.string.completed));
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerValues);
         spinner.setAdapter(spinnerAdapter);
 
@@ -87,13 +89,8 @@ public class EditBookActivity extends AppCompatActivity {
         totalPagesEdit.setText(sharedP.getString("Tpage"+indexFromIntent, ""));
         descEdit.setText(sharedP.getString("Desc"+indexFromIntent, ""));
 
-        stateStr = sharedP.getString("State"+indexFromIntent,"");
-        if (stateStr.equals("Wanna Read"))
-            spinner.setSelection(0);
-        else if (stateStr.equals("Currently reading"))
-            spinner.setSelection(1);
-        else if (stateStr.equals("Completed"))
-            spinner.setSelection(2);
+        stateInt = Integer.parseInt(sharedP.getString("State"+indexFromIntent,""));
+        spinner.setSelection(stateInt);
 
         Uri coverUri = Uri.parse(sharedP.getString("CoverUri"+indexFromIntent, ""));
         //imageButton.setImageURI(coverUri);
@@ -121,7 +118,7 @@ public class EditBookActivity extends AppCompatActivity {
         authorStr = authorEdit.getText().toString();
         totalPagesStr = totalPagesEdit.getText().toString();
         descStr = descEdit.getText().toString();
-        stateStr = spinner.getSelectedItem().toString();
+        stateInt = spinner.getSelectedItemPosition();
 
         Log.d(TAG, "XXXXXXX___ indexfromindent in onSubmit of editbookactivity = "+indexFromIntent);
         int indexInt = indexFromIntent;
@@ -132,7 +129,7 @@ public class EditBookActivity extends AppCompatActivity {
         editor.putString("Author"+indexInt, authorStr);
         editor.putString("Tpage"+indexInt, totalPagesStr);
         editor.putString("Desc"+indexInt, descStr);
-        editor.putString("State"+indexInt, stateStr);
+        editor.putString("State"+indexInt, String.valueOf(stateInt));
         if (isCoverChanged)
             editor.putString("CoverUri"+indexInt, coverUriStr);
         editor.commit();

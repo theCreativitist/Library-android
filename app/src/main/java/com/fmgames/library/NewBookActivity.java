@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.FileNotFoundException;
@@ -32,18 +33,19 @@ public class NewBookActivity extends AppCompatActivity {
 
     String bookNameStr;
     String currentPageStr;
-    String authorStr, descStr, totalPagesStr, stateStr;
+    String authorStr, descStr, totalPagesStr;
     String coverUriStr;
 
     SharedPreferences sharedP;
     SharedPreferences.Editor editor;
-    int indexFromSp;
+    int indexFromSp, stateInt;
 
     boolean isCoverChanged = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Fresco.initialize(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newbook);
 
@@ -64,9 +66,9 @@ public class NewBookActivity extends AppCompatActivity {
 
     public void initSpinner() {
         ArrayList<String> spinnerValues = new ArrayList<>();
-        spinnerValues.add("Wanna read");
-        spinnerValues.add("Currently reading");
-        spinnerValues.add("Completed");
+        spinnerValues.add(getString(R.string.wanna_read));
+        spinnerValues.add(getString(R.string.reading));
+        spinnerValues.add(getString(R.string.completed));
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerValues);
         spinner.setAdapter(spinnerAdapter);
@@ -78,7 +80,8 @@ public class NewBookActivity extends AppCompatActivity {
         authorStr = authorEdit.getText().toString();
         descStr = descEdit.getText().toString();
         totalPagesStr = totalPagesEdit.getText().toString();
-        stateStr = spinner.getSelectedItem().toString();
+        stateInt = spinner.getSelectedItemPosition();
+        String stateStr = String.valueOf(stateInt);
 
         editor.putString("Name"+indexFromSp, bookNameStr);
         editor.putString("Page"+indexFromSp, currentPageStr);

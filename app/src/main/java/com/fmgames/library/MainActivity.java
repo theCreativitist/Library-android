@@ -27,9 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private CheckBox cb;
-    //private ListView list;
-    //private RadioGroup radio;
     private FloatingActionButton fab;
     private RecyclerView recView;
     private BottomNavigationView bottomNav;
@@ -170,8 +167,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData() {
-        String name, page, author, desc, tPage, state, coverUri;
-        int index;
+        String name, page, author, desc, tPage, coverUri, stateStr;
+        int index, state;
         for (int i=0; i<spIndex; i++){
             name = sharedP.getString("Name"+i, "Unnamed book");
             if (name.equals("Unnamed book"))
@@ -192,25 +189,33 @@ public class MainActivity extends AppCompatActivity {
             author = sharedP.getString("Author"+i, "Unknown artist");
             desc = sharedP.getString("Desc"+i, "No description...");
             tPage = sharedP.getString("Tpage"+i, "");
-            state = sharedP.getString("State"+i, "Wanna read");
+            stateStr = sharedP.getString("State"+i, "0");
+            // EXP:__ For handeling older versions using string state system
+            if (stateStr.equals("Wanna read")){
+                editor.putString("State"+i, "0");
+            editor.commit();
+            }
+            else if (stateStr.equals("Currently reading")){
+                editor.putString("State"+i, "1");
+            editor.commit();
+            }
+            else if (stateStr.equals("Completed")){
+                editor.putString("State"+i, "2");
+            editor.commit();
+            }
+
+            state = Integer.parseInt(sharedP.getString("State"+i, "0"));
             if (page.equals(""))
                 page = "0";
             if (tPage.equals(""))
                 tPage = "0";
             books.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
-            switch (state) {
-                case "Wanna read":
-                    wannaReadBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
-                    break;
-                case "Currently reading":
-                    readingBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
-                    break;
-                case "Completed":
-                    completedBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
-                    break;
-                default:
-                    break;
-            }
+            if (state == 0)
+                wannaReadBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
+            else if (state == 1)
+                readingBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
+            else if (state == 2)
+                completedBooks.add(new Book(name, author, desc, state, Integer.parseInt(page), Integer.parseInt(tPage), index, coverUri));
         }
     }
 
