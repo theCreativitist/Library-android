@@ -141,9 +141,9 @@ public class EditBookActivity extends AppCompatActivity {
     public void onDelete (View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
-        builder.setTitle("Deleting a book");
-        builder.setMessage("Are you sure you want to delete this book?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.delete_title));
+        builder.setMessage(getString(R.string.delete_confirmation));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 editor.remove("Name"+indexFromIntent);
@@ -159,7 +159,7 @@ public class EditBookActivity extends AppCompatActivity {
                 startActivity(in);
             }
         })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 

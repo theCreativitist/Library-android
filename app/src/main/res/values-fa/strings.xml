@@ -39,5 +39,10 @@
     <string name="all_books">همه کتابها</string>
     <string name="set_book_image">ثبت تصویر کتاب</string>
     <string name="delete">حذف کردن</string>
+    <string name="delete_confirmation">آیا از حذف کردن این کتاب اطمینان دارید؟</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
+    <string name="about_dialogue">سازنده برنامه: امیرمهدی خبوشانی</string>
+    <string name="delete_title">حذف کتاب</string>
 
 </resources>

@@ -2,24 +2,15 @@ package com.fmgames.library;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,52 +46,14 @@ public class MainActivity extends AppCompatActivity {
         
         sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
         editor = sharedP.edit();
-        //String spName = sharedP.getString("Name", "BOOK_NAME");
-        //String spPage = sharedP.getString("Page", "0");
-        //boolean spHaveRead = sharedP.getBoolean("HaveRead", false);
         spIndex = sharedP.getInt("index",0);
-
-        //cb = findViewById(R.id.cb);
-        //list = findViewById(R.id.list);
-        //radio = findViewById(R.id.radio);
 
         initFab();
 
         initBottomNav();
 
-        //list.setVisibility(View.INVISIBLE);
-
         final ArrayList<String> items = new ArrayList<>();
         final ArrayList<Integer> readCounts = new ArrayList<>();
-
-
-        //items.add("A gentleman in Moscow");
-        //items.add("The 100 Dollars startup");
-        //items.add("Nicolas and Alexandra");
-        //items.add("A tale of two cities");
-        //items.add("How to be an Imperfectionist");
-        //items.add(spName);
-
-        //readCounts.add(0);
-        //readCounts.add(30);
-        //readCounts.add(385);
-        //readCounts.add(0);
-        //readCounts.add(250);
-        /*String name, page;
-        for (int i=0; i<spIndex; i++){
-            name = sharedP.getString("Name"+i, "BOOK_NAME");
-            items.add(name);
-            page = sharedP.getString("Page"+i, "0");
-            if (page.equals(""))
-                page = "0";
-            readCounts.add(Integer.parseInt(page));
-        }*/
-
-        /*if (spPage != null) {
-            if (spPage.equals(""))
-                spPage = "0";
-            readCounts.add(Integer.parseInt(spPage));
-        }*/
 
         if (getIntent().getExtras() != null){
             bookNameFromIntent = getIntent().getExtras().getString("Name");
@@ -110,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             indexFromIntent = getIntent().getExtras().getInt("Index");
         }
 
-            // System.out.println("XXX__ indexFromIndent in mainactivity got = "+ indexFromIntent);
 
         /*   if (sourceFromIntent.equals("NewBook")){
                 items.add(bookNameFromIntent);
@@ -125,21 +77,13 @@ public class MainActivity extends AppCompatActivity {
                 readCounts.set(indexFromIntent, Integer.parseInt(currentPageFromIntent));
             }
         }*/
-        /*
-        ArrayAdapter<String> adapterArray = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                items
-        ); */
-
 
         //books.add(new Book("Nicolas and Alexandra", "Robert K. Massei", "A Historical Book", "Finished", 445, 445));
-
         loadData();
 
         initRecView(books);
 
-        /*
+        /* LIST
         list.setAdapter(adapterArray);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -191,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             tPage = sharedP.getString("Tpage"+i, "");
             stateStr = sharedP.getString("State"+i, "0");
             // EXP:__ For handeling older versions using string state system
-            if (stateStr.equals("Wanna read")){
+            /*if (stateStr.equals("Wanna read")){
                 editor.putString("State"+i, "0");
             editor.commit();
             }
@@ -202,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             else if (stateStr.equals("Completed")){
                 editor.putString("State"+i, "2");
             editor.commit();
-            }
+            }*/
 
             state = Integer.parseInt(sharedP.getString("State"+i, "0"));
             if (page.equals(""))
@@ -273,15 +217,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.aboutMenu:
-                toaster("This program is developed by AmirMahdi!");
+                toaster2(getString(R.string.about_dialogue));
                 return true;
 
             default:
-                toaster("Not Defiened");
+                toaster1("Not Defiened");
                 return super.onOptionsItemSelected(item);
         }
     }
-    /*public void btnClick(View v) {
+    /* Qolami theme
+    public void btnClick(View v) {
             int radioCheckedItem = radio.getCheckedRadioButtonId();
             switch (radioCheckedItem){
                 case R.id.radioBtnDefault:
@@ -297,13 +242,19 @@ public class MainActivity extends AppCompatActivity {
             //list.setVisibility(View.VISIBLE);
     }*/
 
-    public void toaster(String txt){ Toast.makeText(this, txt, Toast.LENGTH_SHORT).show(); }
-
-
+    public void toaster1(String txt){ Toast.makeText(this, txt, Toast.LENGTH_SHORT).show(); }
+    public void toaster2(String txt){ Toast.makeText(this, txt, Toast.LENGTH_LONG).show(); }
 
 
 
     //TODO: beautify editbook and newbook layouts
+    //TODO (IMPORTANT) : delete "handling old version" expressions in "loaddata()" function
+    //TODO: tidy ur code up! (delete obsolote comments)
+
+    //FATURES
+    //TODO: reading reminder
+    //TODO: Sharing a book
+    //TODO: backup and restore
 
     //?todo: get book information by an api from a service like goodreads or amazon
     //?todo: getting the books cover images :: open library search api -> covers api

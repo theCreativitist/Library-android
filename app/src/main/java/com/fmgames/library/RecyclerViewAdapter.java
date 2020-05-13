@@ -1,33 +1,23 @@
 package com.fmgames.library;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
-
 import java.util.ArrayList;
 import java.util.Random;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,7 +34,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(Context context) {
         this.context = context;
 
-        colors.add("#0074D9");
+        /*colors.add("#0074D9");
         colors.add("#7FDBFF");
         colors.add("#39CCCC");
         colors.add("#3D9970");
@@ -55,7 +45,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         colors.add("#FF4136");
         colors.add("#85144b");
         colors.add("#F012BE");
-        colors.add("#B10DC9");
+        colors.add("#B10DC9");*/
     }
 
     private ArrayList<Book> books = new ArrayList<>();
@@ -85,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         } else {
             holder.progressBar.setVisibility(View.VISIBLE);
             holder.percent.setVisibility(View.VISIBLE);
-            holder.totalPages.setText(context.getResources().getString(R.string.pages));
+            holder.pagesString.setText(context.getResources().getString(R.string.pages));
             holder.totalPages.setText(books.get(position).getTotalPagesString());
             float percentage = (books.get(position).getCurrentPage() * 1.0f / books.get(position).getTotalPages()) * 100;
             String percentStr = String.format("%.0f", percentage) + "%";

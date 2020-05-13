@@ -39,5 +39,10 @@
     <string name="all_books">All books</string>
     <string name="set_book_image">Set Book Image</string>
     <string name="delete">delete</string>
+    <string name="delete_title">Deleting a book</string>
+    <string name="delete_confirmation">Are you sure you want to delete this book?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="about_dialogue">This program is developed by AmirMahdi Khabushani!</string>
 
 </resources>
