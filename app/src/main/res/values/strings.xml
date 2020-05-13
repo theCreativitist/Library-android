@@ -14,7 +14,7 @@
     <string name="show_book_list">show book list</string>
     <string name="add_a_new_book">Add a new book</string>
     <string name="book_title">Book title</string>
-    <string name="current_page">Current page you are at</string>
+    <string name="current_page">Current page</string>
     <string name="completely_read">I have completely read this book</string>
     <string name="submit_book">Submit book</string>
     <string name="edit_book">Edit book</string>
