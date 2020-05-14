@@ -8,10 +8,10 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/listItemImageView"
-        android:layout_width="110dp"
+        android:layout_width="98dp"
         android:layout_height="150dp"
         android:contentDescription="@string/book_image"
-        app:actualImageScaleType="fitCenter"
+        android:scaleType="fitCenter"
         app:placeholderImage="@drawable/bookcover2" />
 
     <TextView

@@ -3,14 +3,25 @@ package com.fmgames.library;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,9 +29,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private FloatingActionButton fab;
     private RecyclerView recView;
     private BottomNavigationView bottomNav;
+    private Spinner spinner, spinnerType;
 
     String bookNameFromIntent;
     String currentPageFromIntent;
@@ -33,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Book> completedBooks = new ArrayList<>();
     public ArrayList<Book> books = new ArrayList<>();
 
+    public ArrayList<Book> sortBooks = new ArrayList<>();
+
     RecyclerViewAdapter recViewAdapter = new RecyclerViewAdapter(this);
 
     SharedPreferences sharedP;
@@ -43,14 +58,90 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
+        initFab();
+        initBottomNav();
+        spinner = findViewById(R.id.sortBySpinner);
+        spinnerType = findViewById(R.id.sortTypeSpinner);
+        ArrayList<String> spinnerVals = new ArrayList<>();
+        ArrayList<String> spinnerTypeVals = new ArrayList<>();
+        spinnerVals.add(getString(R.string.title_book));
+        spinnerVals.add(getString(R.string.progress));
+        spinnerVals.add(getString(R.string.total_pages));
+        spinnerVals.add(getString(R.string.current_page));
+        spinnerTypeVals.add(getString(R.string.ascending));
+        spinnerTypeVals.add(getString(R.string.descending));
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, spinnerVals);
+        ArrayAdapter<String> spinnerTypeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, spinnerTypeVals);
+        spinner.setAdapter(spinnerAdapter);
+        spinnerType.setAdapter(spinnerTypeAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        Comparator<Book> comparator = new Comparator<Book>() {
+                            @Override
+                            public int compare(Book book, Book t1) {
+                                return compareFa(book.getTitle(), t1.getTitle());
+                            }
+
+                            public int compareFa (String s1, String s2){
+                                Collator collator = Collator.getInstance(new Locale("fa","ir"));
+                                collator.setStrength(Collator.SECONDARY);
+                                ArrayList<String> arrayList = new ArrayList<>();
+                                arrayList.add(s1);
+                                arrayList.add(s2);
+                                //Log.d(TAG, "_____///BEFORE: ("+arrayList.get(0)+") , ("+arrayList.get(1)+")______");
+                                Collections.sort(arrayList, collator);
+                                //Log.d(TAG, "_____AFTER: ("+arrayList.get(0)+") , ("+arrayList.get(1)+")______");
+                                if (arrayList.get(0).equals(s1)){
+                                    //Log.d(TAG, "____NOT CHANGED___");
+                                    return -1;
+                                }
+                                else{
+                                    //Log.d(TAG, "____CHANGED___");
+                                    return 1;
+                                }
+                            }
+                        };
+                        Collections.sort(books, comparator);
+                        Collections.sort(readingBooks, comparator);
+                        Collections.sort(wannaReadBooks, comparator);
+                        Collections.sort(completedBooks, comparator);
+
+                        switch (bottomNav.getSelectedItemId()){//determine current category
+                            case R.id.readingMenu:
+                                sortBooks = readingBooks;
+                                break;
+                            case R.id.wannaReadMenu:
+                                sortBooks = wannaReadBooks;
+                                break;
+                            case R.id.completedMenu:
+                                sortBooks = completedBooks;
+                                break;
+                            default:
+                                sortBooks = books;
+                                break;
+                        }
+
+                        recViewAdapter.setBooks(sortBooks);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
         editor = sharedP.edit();
         spIndex = sharedP.getInt("index",0);
-
-        initFab();
-
-        initBottomNav();
 
         final ArrayList<String> items = new ArrayList<>();
         final ArrayList<Integer> readCounts = new ArrayList<>();
@@ -190,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void initRecView(ArrayList<Book> books) {
         recView = findViewById(R.id.recyclerView);
-        recViewAdapter.setBooks(books);
+        //recViewAdapter.setBooks(books);
         recView.setAdapter(recViewAdapter);
         recView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -247,11 +338,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //TODO: beautify editbook and newbook layouts
-    //TODO (IMPORTANT) : delete "handling old version" expressions in "loaddata()" function
+    //--TODO (IMPORTANT) : delete "handling old version" expressions in "loaddata()" function
     //TODO: tidy ur code up! (delete obsolote comments)
 
     //FATURES
+    //TODO: list sorting
+    //TODO: list searching
     //TODO: reading reminder
     //TODO: Sharing a book
     //TODO: backup and restore
@@ -266,4 +358,5 @@ public class MainActivity extends AppCompatActivity {
     //--todo: books catorization
     //--todo: Fix deleting problems
     //--TODO: image compression in 'editbookActivity' and 'newbookActivity' image picker
+    //--TODO: beautify editbook and newbook layouts
 }
