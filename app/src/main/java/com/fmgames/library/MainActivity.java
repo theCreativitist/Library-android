@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     int spIndex;
 
+    //TODO this shit is ashghal kari! do something
+    boolean isSpinnerTypeFirstTime = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,12 +182,6 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         break;
                 }
-                if (spinnerType.getSelectedItemPosition() == 1) {
-                    Collections.reverse(books);
-                    Collections.reverse(readingBooks);
-                    Collections.reverse(wannaReadBooks);
-                    Collections.reverse(completedBooks);
-                }
                 switch (bottomNav.getSelectedItemId()){//determine current category
                     case R.id.readingMenu:
                         sortBooks = readingBooks;
@@ -213,6 +210,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
                     case 0:
+                        if (isSpinnerTypeFirstTime){
+                            isSpinnerTypeFirstTime = false;
+                            break;
+                        }
                     case 1:
                         Collections.reverse(books);
                         Collections.reverse(readingBooks);

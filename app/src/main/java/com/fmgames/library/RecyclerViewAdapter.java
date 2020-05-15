@@ -82,6 +82,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.percent.setText(percentStr);
         }
 
+        if (books.get(position).getCurrentPageString().equals("0"))
+            holder.currentPage.setVisibility(View.INVISIBLE);
+        else
+            holder.currentPage.setVisibility(View.VISIBLE);
+
         int stateInt = books.get(position).getState();
         if (stateInt == 0){
             holder.HaveRead.setTextColor(Color.RED);
@@ -116,13 +121,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }*/
 
 
-        holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        /*holder.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 Intent ebIntent = new Intent(context, EditBookActivity.class);
                 ebIntent.putExtra("Index", books.get(position).getIndex());
                 context.startActivity(ebIntent);
                 return true;
+            }
+        });*/
+
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent ebIntent = new Intent(context, EditBookActivity.class);
+                ebIntent.putExtra("Index", books.get(position).getIndex());
+                context.startActivity(ebIntent);
             }
         });
 
