@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
         spinnerVals.add(getString(R.string.progress));
         spinnerVals.add(getString(R.string.total_pages));
         spinnerVals.add(getString(R.string.current_page));
-        spinnerTypeVals.add(getString(R.string.ascending));
         spinnerTypeVals.add(getString(R.string.descending));
+        spinnerTypeVals.add(getString(R.string.ascending));
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, spinnerVals);
         ArrayAdapter<String> spinnerTypeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item, spinnerTypeVals);
         spinner.setAdapter(spinnerAdapter);
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i){
-                    case 0:
+                    case 0: //title
                         Comparator<Book> comparator = new Comparator<Book>() {
                             @Override
                             public int compare(Book book, Book t1) {
@@ -110,27 +110,133 @@ public class MainActivity extends AppCompatActivity {
                         Collections.sort(readingBooks, comparator);
                         Collections.sort(wannaReadBooks, comparator);
                         Collections.sort(completedBooks, comparator);
+                        break;
 
-                        switch (bottomNav.getSelectedItemId()){//determine current category
-                            case R.id.readingMenu:
-                                sortBooks = readingBooks;
-                                break;
-                            case R.id.wannaReadMenu:
-                                sortBooks = wannaReadBooks;
-                                break;
-                            case R.id.completedMenu:
-                                sortBooks = completedBooks;
-                                break;
-                            default:
-                                sortBooks = books;
-                                break;
-                        }
+                    case 1: //progress
+                        Comparator<Book> comparator2 = new Comparator<Book>() {
+                            @Override
+                            public int compare(Book book, Book t1) {
+                                if (t1.getTotalPages() != 0 && book.getTotalPages() != 0){
+                                    //Log.d(TAG, "__NORMAL___("+book.getTitle()+")_"+book.getCurrentPage() / book.getTotalPages()+"&("+t1.getTitle()+")_"+book.getCurrentPage() / book.getTotalPages()+"___");
+                                    return Float.compare(t1.getCurrentPage()*1.0f / t1.getTotalPages(), book.getCurrentPage()*1.0f / book.getTotalPages());}
+                                else if (t1.getTotalPages() != 0){
+                                    //Log.d(TAG, "__1 NOT ZERO___("+book.getTitle()+")&("+t1.getTitle()+")___");
+                                    return 1;}
+                                else if (book.getTotalPages() != 0){
+                                    //Log.d(TAG, "__2 NOT ZERO___("+book.getTitle()+")&("+t1.getTitle()+")___");
+                                    return -1;}
+                                else{
+                                    //Log.d(TAG, "__BOTH ZERO!___("+book.getTitle()+")&("+t1.getTitle()+")___");
+                                    return 0;
+                                }
+                            }
+                        };
+                        Collections.sort(books, comparator2);
+                        Collections.sort(readingBooks, comparator2);
+                        Collections.sort(wannaReadBooks, comparator2);
+                        Collections.sort(completedBooks, comparator2);
+                        break;
 
-                        recViewAdapter.setBooks(sortBooks);
+                    case 2: //total pages
+                        Comparator<Book> comparator3 = new Comparator<Book>() {
+                            @Override
+                            public int compare(Book book, Book t1) {
+                                if (t1.getTotalPages() != 0 && book.getTotalPages() != 0){
+                                    //Log.d(TAG, "__NORMAL___("+book.getTitle()+")_"+book.getCurrentPage() / book.getTotalPages()+"&("+t1.getTitle()+")_"+book.getCurrentPage() / book.getTotalPages()+"___");
+                                    return Integer.compare(t1.getTotalPages(), book.getTotalPages());}
+                                else if (t1.getTotalPages() != 0){
+                                    //Log.d(TAG, "__1 NOT ZERO___("+book.getTitle()+")&("+t1.getTitle()+")___");
+                                    return 1;}
+                                else if (book.getTotalPages() != 0){
+                                    //Log.d(TAG, "__2 NOT ZERO___("+book.getTitle()+")&("+t1.getTitle()+")___");
+                                    return -1;}
+                                else{
+                                    //Log.d(TAG, "__BOTH ZERO!___("+book.getTitle()+")&("+t1.getTitle()+")___");
+                                    return 0;
+                                }
+                            }
+                        };
+                        Collections.sort(books, comparator3);
+                        Collections.sort(readingBooks, comparator3);
+                        Collections.sort(wannaReadBooks, comparator3);
+                        Collections.sort(completedBooks, comparator3);
+                        break;
+
+                    case 3: //current page
+                        Comparator<Book> comparator4 = new Comparator<Book>() {
+                            @Override
+                            public int compare(Book book, Book t1) {
+                                    //Log.d(TAG, "__NORMAL___("+book.getTitle()+")_"+book.getCurrentPage() / book.getTotalPages()+"&("+t1.getTitle()+")_"+book.getCurrentPage() / book.getTotalPages()+"___");
+                                    return Integer.compare(t1.getCurrentPage(), book.getCurrentPage());
+                            }
+                        };
+                        Collections.sort(books, comparator4);
+                        Collections.sort(readingBooks, comparator4);
+                        Collections.sort(wannaReadBooks, comparator4);
+                        Collections.sort(completedBooks, comparator4);
+                        break;
+
+                    default:
+                        break;
+                }
+                if (spinnerType.getSelectedItemPosition() == 1) {
+                    Collections.reverse(books);
+                    Collections.reverse(readingBooks);
+                    Collections.reverse(wannaReadBooks);
+                    Collections.reverse(completedBooks);
+                }
+                switch (bottomNav.getSelectedItemId()){//determine current category
+                    case R.id.readingMenu:
+                        sortBooks = readingBooks;
+                        break;
+                    case R.id.wannaReadMenu:
+                        sortBooks = wannaReadBooks;
+                        break;
+                    case R.id.completedMenu:
+                        sortBooks = completedBooks;
+                        break;
+                    default:
+                        sortBooks = books;
+                        break;
+                }
+                recViewAdapter.setBooks(sortBooks);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                    case 1:
+                        Collections.reverse(books);
+                        Collections.reverse(readingBooks);
+                        Collections.reverse(wannaReadBooks);
+                        Collections.reverse(completedBooks);
                         break;
                     default:
                         break;
                 }
+                switch (bottomNav.getSelectedItemId()){//determine current category
+                    case R.id.readingMenu:
+                        sortBooks = readingBooks;
+                        break;
+                    case R.id.wannaReadMenu:
+                        sortBooks = wannaReadBooks;
+                        break;
+                    case R.id.completedMenu:
+                        sortBooks = completedBooks;
+                        break;
+                    default:
+                        sortBooks = books;
+                        break;
+                }
+                recViewAdapter.setBooks(sortBooks);
             }
 
             @Override
