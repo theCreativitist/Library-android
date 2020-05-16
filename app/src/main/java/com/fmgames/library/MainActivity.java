@@ -182,6 +182,12 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         break;
                 }
+                if (spinnerType.getSelectedItemPosition() == 1){
+                    Collections.reverse(books);
+                    Collections.reverse(readingBooks);
+                    Collections.reverse(wannaReadBooks);
+                    Collections.reverse(completedBooks);
+                }
                 switch (bottomNav.getSelectedItemId()){//determine current category
                     case R.id.readingMenu:
                         sortBooks = readingBooks;
@@ -454,6 +460,7 @@ public class MainActivity extends AppCompatActivity {
     //TODO: reading reminder
     //TODO: Sharing a book
     //TODO: backup and restore
+    //TODO: Saving the date a book gets submited and completed (and edited maybe)
 
     //?todo: get book information by an api from a service like goodreads or amazon
     //?todo: getting the books cover images :: open library search api -> covers api
