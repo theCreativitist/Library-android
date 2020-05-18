@@ -10,9 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -24,6 +27,7 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -202,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                         sortBooks = books;
                         break;
                 }
+                Log.d(TAG, "____SPINNER SET BOOKS CALLED___");
                 recViewAdapter.setBooks(sortBooks);
             }
 
@@ -243,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
                         sortBooks = books;
                         break;
                 }
+
                 recViewAdapter.setBooks(sortBooks);
             }
 
@@ -256,8 +262,8 @@ public class MainActivity extends AppCompatActivity {
         editor = sharedP.edit();
         spIndex = sharedP.getInt("index",0);
 
-        final ArrayList<String> items = new ArrayList<>();
-        final ArrayList<Integer> readCounts = new ArrayList<>();
+        //final ArrayList<String> items = new ArrayList<>();
+        //final ArrayList<Integer> readCounts = new ArrayList<>();
 
         if (getIntent().getExtras() != null){
             bookNameFromIntent = getIntent().getExtras().getString("Name");
@@ -285,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
         //books.add(new Book("Nicolas and Alexandra", "Robert K. Massei", "A Historical Book", "Finished", 445, 445));
         loadData();
 
-        initRecView(books);
+        initRecView();
 
         /* LIST
         list.setAdapter(adapterArray);
@@ -392,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void initRecView(ArrayList<Book> books) {
+    public void initRecView() {
         recView = findViewById(R.id.recyclerView);
         //recViewAdapter.setBooks(books);
         recView.setAdapter(recViewAdapter);
@@ -414,6 +420,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
         inflator.inflate(R.menu.menu_main, menu);
+        MenuItem searchMenuItem = menu.findItem(R.id.searchMenu);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                //recViewAdapter.filter(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                recViewAdapter.filter(s);
+                return false;
+            }
+        });
         return true;
     }
 

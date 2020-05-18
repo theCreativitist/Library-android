@@ -48,5 +48,6 @@
     <string name="progress">Progress</string>
     <string name="ascending">asc.</string>
     <string name="descending">desc.</string>
+    <string name="search">search</string>
 
 </resources>

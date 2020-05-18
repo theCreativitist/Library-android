@@ -26,34 +26,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private static final String TAG = "RecyclerViewAdapter";
 
     Context context;
-    ArrayList<String> colors = new ArrayList<>();
-    Random random = new Random();
-    int lastRand = 0;
+    //ArrayList<String> colors = new ArrayList<>();
+    //Random random = new Random();
+    //int lastRand = 0;
 
 
     public RecyclerViewAdapter(Context context) {
         this.context = context;
-
-        /*colors.add("#0074D9");
-        colors.add("#7FDBFF");
-        colors.add("#39CCCC");
-        colors.add("#3D9970");
-        colors.add("#2ECC40");
-        colors.add("#01FF70");
-        colors.add("#FFDC00");
-        colors.add("#FF851B");
-        colors.add("#FF4136");
-        colors.add("#85144b");
-        colors.add("#F012BE");
-        colors.add("#B10DC9");*/
     }
 
     private ArrayList<Book> books = new ArrayList<>();
+    private ArrayList<Book> booksCopy = new ArrayList<>();
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Fresco.initialize(context);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.listitem_recyclerview, null);
         ViewHolder holder = new ViewHolder(view);
         return holder;
@@ -151,6 +138,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return books.size();
     }
 
+    public void filter(String query){
+        books.clear();
+        if (query.isEmpty())
+            books.addAll(booksCopy);
+        else {
+            query = query.toLowerCase();
+            for (Book book : booksCopy){
+                if (book.getTitle().toLowerCase().contains(query) || book.getAuthor().toLowerCase().contains(query) || book.getDescription().toLowerCase().contains(query))
+                    books.add(book);
+            }
+        }
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -177,7 +177,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void setBooks(ArrayList<Book> books) {
+        Fresco.initialize(context);
         this.books = books;
+        booksCopy.clear();
+        booksCopy.addAll(books);
         notifyDataSetChanged();
     }
 }
