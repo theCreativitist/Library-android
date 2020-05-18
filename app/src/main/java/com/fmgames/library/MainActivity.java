@@ -422,6 +422,7 @@ public class MainActivity extends AppCompatActivity {
         inflator.inflate(R.menu.menu_main, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.searchMenu);
         SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setQueryHint(getString(R.string.search));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -476,12 +477,13 @@ public class MainActivity extends AppCompatActivity {
     //TODO: tidy ur code up! (delete obsolote comments)
 
     //FATURES
-    //TODO: list sorting
-    //TODO: list searching
     //TODO: reading reminder
     //TODO: Sharing a book
     //TODO: backup and restore
     //TODO: Saving the date a book gets submited and completed (and edited maybe)
+
+    //--TODO: list sorting
+    //--TODO: list searching
 
     //?todo: get book information by an api from a service like goodreads or amazon
     //?todo: getting the books cover images :: open library search api -> covers api

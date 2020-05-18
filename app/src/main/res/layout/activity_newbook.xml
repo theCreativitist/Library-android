@@ -119,19 +119,24 @@
 
         </LinearLayout>
 
-
-
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/submitBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="25dp"
+        app:borderWidth="0.5dp"
+        app:fabSize="normal"
+        app:maxImageSize="50dp"
+        android:tint="@color/defaultt"
+        app:useCompatPadding="false"
+        android:src="@drawable/checkmark"
+        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTintMode="src_over"
+        android:layout_marginBottom="15dp"
         android:onClick="onSubmit"
-        android:text="@string/submit_book"
-        android:textColor="@color/colorPrimaryDark" />
+        />
 
 </RelativeLayout>
 
