@@ -49,5 +49,6 @@
     <string name="ascending">asc.</string>
     <string name="descending">desc.</string>
     <string name="search">search</string>
+    <string name="recyclerview_placeholder">Nothing to show here!\n Add a book now by touching the button below!</string>
 
 </resources>

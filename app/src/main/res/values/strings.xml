@@ -49,5 +49,6 @@
     <string name="ascending">صعودی</string>
     <string name="descending">نزولی</string>
     <string name="search">جستجو</string>
+    <string name="recyclerview_placeholder">کتابی برای نشون دادن وجود نداره!\n برای اضافه کردن کتاب میتونید علامت بعلاوه اون پایین رو بزنید.</string>
 
 </resources>

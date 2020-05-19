@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recView;
     private BottomNavigationView bottomNav;
     private Spinner spinner, spinnerType;
+    public TextView recViewPlaceholder;
 
     String bookNameFromIntent;
     String currentPageFromIntent;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recViewPlaceholder = findViewById(R.id.recyclerViewPlaceholder);
         initFab();
         initBottomNav();
         spinner = findViewById(R.id.sortBySpinner);
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 Log.d(TAG, "____SPINNER SET BOOKS CALLED___");
-                recViewAdapter.setBooks(sortBooks);
+                setBooks(sortBooks);
             }
 
             @Override
@@ -249,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
 
-                recViewAdapter.setBooks(sortBooks);
+                setBooks(sortBooks);
             }
 
             @Override
@@ -262,8 +265,6 @@ public class MainActivity extends AppCompatActivity {
         editor = sharedP.edit();
         spIndex = sharedP.getInt("index",0);
 
-        //final ArrayList<String> items = new ArrayList<>();
-        //final ArrayList<Integer> readCounts = new ArrayList<>();
 
         if (getIntent().getExtras() != null){
             bookNameFromIntent = getIntent().getExtras().getString("Name");
@@ -273,51 +274,11 @@ public class MainActivity extends AppCompatActivity {
             indexFromIntent = getIntent().getExtras().getInt("Index");
         }
 
-
-        /*   if (sourceFromIntent.equals("NewBook")){
-                items.add(bookNameFromIntent);
-                if (currentPageFromIntent.equals(""))
-                    currentPageFromIntent = "0";
-                readCounts.add(Integer.parseInt(currentPageFromIntent));
-            }
-            else if (sourceFromIntent.equals("EditBook")){
-                items.set(indexFromIntent, bookNameFromIntent);
-                if (currentPageFromIntent.equals(""))
-                    currentPageFromIntent = "0";
-                readCounts.set(indexFromIntent, Integer.parseInt(currentPageFromIntent));
-            }
-        }*/
-
         //books.add(new Book("Nicolas and Alexandra", "Robert K. Massei", "A Historical Book", "Finished", 445, 445));
         loadData();
 
         initRecView();
 
-        /* LIST
-        list.setAdapter(adapterArray);
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Toast.makeText(MainActivity.this, String.valueOf(readCounts.get(i)), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //readCounts.set(i, readCounts.get(i) + 1);
-                //Toast.makeText(MainActivity.this, "Increased by one", Toast.LENGTH_SHORT).show();
-                Intent ebIntent = new Intent(MainActivity.this, EditBookActivity.class);
-                ebIntent.putExtra("Name", items.get(i));
-                ebIntent.putExtra("Page", readCounts.get(i).toString());
-                ebIntent.putExtra("Index", i);
-                //ebIntent.putExtra("HaveRead", haveReadBool);
-                startActivity(ebIntent);
-                return true;
-            }
-        });*/
     }
 
     public void loadData() {
@@ -344,20 +305,6 @@ public class MainActivity extends AppCompatActivity {
             desc = sharedP.getString("Desc"+i, "No description...");
             tPage = sharedP.getString("Tpage"+i, "");
             stateStr = sharedP.getString("State"+i, "0");
-            // EXP:__ For handeling older versions using string state system
-            /*if (stateStr.equals("Wanna read")){
-                editor.putString("State"+i, "0");
-            editor.commit();
-            }
-            else if (stateStr.equals("Currently reading")){
-                editor.putString("State"+i, "1");
-            editor.commit();
-            }
-            else if (stateStr.equals("Completed")){
-                editor.putString("State"+i, "2");
-            editor.commit();
-            }*/
-
             state = Integer.parseInt(sharedP.getString("State"+i, "0"));
             if (page.equals(""))
                 page = "0";
@@ -380,16 +327,16 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.allBooksMenu:
-                        recViewAdapter.setBooks(books);
+                        setBooks(books);
                         return true;
                     case R.id.readingMenu:
-                        recViewAdapter.setBooks(readingBooks);
+                        setBooks(readingBooks);
                         return true;
                     case R.id.wannaReadMenu:
-                        recViewAdapter.setBooks(wannaReadBooks);
+                        setBooks(wannaReadBooks);
                         return true;
                     case R.id.completedMenu:
-                        recViewAdapter.setBooks(completedBooks);
+                        setBooks(completedBooks);
                         return true;
                     default:
                         return false;
@@ -451,22 +398,14 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    /* Qolami theme
-    public void btnClick(View v) {
-            int radioCheckedItem = radio.getCheckedRadioButtonId();
-            switch (radioCheckedItem){
-                case R.id.radioBtnDefault:
-                    recView.setBackgroundColor(Color.TRANSPARENT);
-                    break;
-                case R.id.radioBtnRed:
-                    recView.setBackgroundColor(getResources().getColor(R.color.red));
-                    break;
-                case R.id.radioBtnBlue:
-                    recView.setBackgroundColor(getResources().getColor(R.color.blue));
-                    break;
-            }
-            //list.setVisibility(View.VISIBLE);
-    }*/
+
+    public void setBooks(ArrayList<Book> books){
+        if (books.isEmpty())
+            recViewPlaceholder.setVisibility(View.VISIBLE);
+        else
+            recViewPlaceholder.setVisibility(View.GONE);
+        recViewAdapter.setBooks(books);
+    }
 
     public void toaster1(String txt){ Toast.makeText(this, txt, Toast.LENGTH_SHORT).show(); }
     public void toaster2(String txt){ Toast.makeText(this, txt, Toast.LENGTH_LONG).show(); }
