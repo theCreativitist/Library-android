@@ -12,11 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,7 +26,6 @@ import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNav;
     private Spinner spinner, spinnerType;
     public TextView recViewPlaceholder;
+    SearchView searchView;
 
     String bookNameFromIntent;
     String currentPageFromIntent;
@@ -367,9 +365,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
         inflator.inflate(R.menu.menu_main, menu);
-        MenuItem searchMenuItem = menu.findItem(R.id.searchMenu);
-        SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        final MenuItem searchMenuItem = menu.findItem(R.id.searchMenu);
+        searchView = (SearchView) searchMenuItem.getActionView();
         searchView.setQueryHint(getString(R.string.search));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -399,6 +398,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()){
+            searchView.setIconified(true);
+            searchView.onActionViewCollapsed();
+        }
+        else
+            super.onBackPressed();
+    }
+
     public void setBooks(ArrayList<Book> books){
         if (books.isEmpty())
             recViewPlaceholder.setVisibility(View.VISIBLE);
@@ -413,7 +422,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     //--TODO (IMPORTANT) : delete "handling old version" expressions in "loaddata()" function
-    //TODO: tidy ur code up! (delete obsolote comments)
 
     //FATURES
     //TODO: reading reminder
@@ -425,6 +433,7 @@ public class MainActivity extends AppCompatActivity {
     //--TODO: list searching
 
     //?todo: get book information by an api from a service like goodreads or amazon
+    //https://openlibrary.org/api/books?bibkeys=ISBN:0201558025,LCCN:93005405&format=json
     //?todo: getting the books cover images :: open library search api -> covers api
     //?todo check material.io
 
@@ -435,4 +444,5 @@ public class MainActivity extends AppCompatActivity {
     //--todo: Fix deleting problems
     //--TODO: image compression in 'editbookActivity' and 'newbookActivity' image picker
     //--TODO: beautify editbook and newbook layouts
+    //--TODO: tidy ur code up! (delete obsolote comments)
 }

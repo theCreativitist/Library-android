@@ -178,7 +178,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void setBooks(ArrayList<Book> books) {
         Fresco.initialize(context);
-        this.books = books;
+        this.books.clear();
+        this.books.addAll(books);
         booksCopy.clear();
         booksCopy.addAll(books);
         notifyDataSetChanged();
