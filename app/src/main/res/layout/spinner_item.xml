@@ -9,4 +9,4 @@
     android:background="@color/colorPrimary"
     android:text="SAMPLE"
     android:padding="10dp"
-    android:textSize="12dp"/>
+    android:textSize="14dp"/>

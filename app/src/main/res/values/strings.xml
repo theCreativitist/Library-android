@@ -50,5 +50,9 @@
     <string name="descending">نزولی</string>
     <string name="search">جستجو</string>
     <string name="recyclerview_placeholder">کتابی برای نشون دادن وجود نداره!\n برای اضافه کردن کتاب میتونید علامت بعلاوه اون پایین رو بزنید.</string>
+    <string name="shareIntro">سلام، من تازگیا دارم این کتابو میخونم:</string>
+    <string name="pages_read">صفحاتی که خوندم:</string>
+    <string name="of">از</string>
+    <string name="promotion">تو هم میتونی برای مدیریت کتابات از اپلیکیشن "کتابخانه من" استفاده کنی:\n https://myket.ir/app/com.fmgames.library</string>
 
 </resources>

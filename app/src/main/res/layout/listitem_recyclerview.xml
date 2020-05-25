@@ -25,6 +25,8 @@
         android:text="@string/book_title"
         android:layout_marginTop="4dp"
         android:textSize="18sp"
+        android:ellipsize="end"
+        android:singleLine="true"
         />
 
     <TextView
@@ -68,10 +70,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_above="@id/listItemBookHaveRead"
+        android:layout_below="@id/listItemDesc"
         android:layout_toEndOf="@id/listItemImageView"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="8dp"
         />
 
     <TextView
@@ -95,7 +97,10 @@
         android:maxWidth="180dp"
         android:maxLines="1"
         android:text="@string/description"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        />
 
     <TextView
         android:id="@+id/listItemBookHaveRead"
@@ -103,9 +108,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/listItemImageView"
-        android:layout_alignBottom="@id/listItemImageView"
+        android:layout_below="@id/progressBar"
         android:text="@string/wanna_read"
-        android:layout_marginBottom="4dp"
+        android:layout_marginTop="2dp"
         android:textSize="16sp"
         android:textColor="@color/full_red"
         />

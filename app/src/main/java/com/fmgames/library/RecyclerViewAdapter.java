@@ -57,8 +57,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         if (books.get(position).getTotalPagesString().equals("0")) {
             holder.pagesString.setText("");
             holder.totalPages.setText("");
-            holder.progressBar.setVisibility(View.GONE);
-            holder.percent.setVisibility(View.GONE);
+            holder.progressBar.setVisibility(View.INVISIBLE);
+            holder.percent.setVisibility(View.INVISIBLE);
         } else {
             holder.progressBar.setVisibility(View.VISIBLE);
             holder.percent.setVisibility(View.VISIBLE);

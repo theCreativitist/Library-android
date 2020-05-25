@@ -52,6 +52,12 @@ public class EditBookActivity extends AppCompatActivity {
     String coverUriStr;
     int stateInt;
 
+    String bookName;
+    String bookPage;
+    String bookAuthor;
+    String bookTpage;
+    String bookDesc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         Fresco.initialize(this);
@@ -83,11 +89,17 @@ public class EditBookActivity extends AppCompatActivity {
         sharedP = getSharedPreferences("dataFile", MODE_PRIVATE);
         editor = sharedP.edit();
 
-        nameEdit.setText(sharedP.getString("Name"+indexFromIntent, ""));
-        pageEdit.setText(sharedP.getString("Page"+indexFromIntent, ""));
-        authorEdit.setText(sharedP.getString("Author"+indexFromIntent, ""));
-        totalPagesEdit.setText(sharedP.getString("Tpage"+indexFromIntent, ""));
-        descEdit.setText(sharedP.getString("Desc"+indexFromIntent, ""));
+        bookName = sharedP.getString("Name"+indexFromIntent, "");
+        bookPage = sharedP.getString("Page"+indexFromIntent, "");
+        bookAuthor = sharedP.getString("Author"+indexFromIntent, "");
+        bookTpage = sharedP.getString("Tpage"+indexFromIntent, "");
+        bookDesc = sharedP.getString("Desc"+indexFromIntent, "");
+
+        nameEdit.setText(bookName);
+        pageEdit.setText(bookPage);
+        authorEdit.setText(bookAuthor);
+        totalPagesEdit.setText(bookTpage);
+        descEdit.setText(bookDesc);
 
         stateInt = Integer.parseInt(sharedP.getString("State"+indexFromIntent,""));
         spinner.setSelection(stateInt);
@@ -191,6 +203,22 @@ public class EditBookActivity extends AppCompatActivity {
         i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         i.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         startActivityForResult(i, GET_FROM_GALLERY);
+    }
+
+    public void onShare(View v){
+        String shareText = getString(R.string.shareIntro) +"\n\n" +
+                bookName +"\n" +
+                getString(R.string.author) + ": " + bookAuthor +"\n" +
+                bookDesc +"\n" +
+                getString(R.string.pages_read) + " " + bookPage + " " + getString(R.string.of) + " " + bookTpage +"\n\n" +
+                getString(R.string.promotion);
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        sendIntent.setType("text/plain");
+
+        Intent shareSheetIntent = Intent.createChooser(sendIntent, null);
+        startActivity(shareSheetIntent);
     }
 
 }

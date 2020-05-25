@@ -135,6 +135,28 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 >
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/DeleteBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:onClick="onDelete"
+                    android:src="@drawable/trashcan"
+                    android:tint="@color/defaultt"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:backgroundTintMode="src_over"
+                    app:fabSize="normal"
+                    app:maxImageSize="36dp"
+                    android:layout_marginStart="20dp"
+                    />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                >
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/submitBtn"
                 android:layout_width="match_parent"
@@ -147,32 +169,27 @@
                 app:backgroundTint="@color/colorPrimary"
                 app:backgroundTintMode="src_over"
                 android:onClick="onSubmit"
-                android:layout_marginStart="20dp"
-                />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                >
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/DeleteBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="onDelete"
-                android:src="@drawable/trashcan"
-                android:tint="@color/defaultt"
-                app:backgroundTint="@color/colorPrimary"
-                app:backgroundTintMode="src_over"
-                app:fabSize="normal"
-                app:maxImageSize="36dp"
                 android:layout_marginEnd="20dp"
                 />
             </FrameLayout>
         </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/shareBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttons"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginEnd="20dp"
+            android:onClick="onShare"
+            android:src="?attr/actionModeShareDrawable"
+            android:tint="@color/defaultt"
+            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTintMode="src_over"
+            app:fabSize="normal"
+            app:maxImageSize="42dp"
+            android:layout_marginTop="10dp"/>
 
     </RelativeLayout>
 

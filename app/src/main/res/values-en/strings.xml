@@ -50,5 +50,9 @@
     <string name="descending">desc.</string>
     <string name="search">search</string>
     <string name="recyclerview_placeholder">Nothing to show here!\n Add a book now by touching the button below!</string>
+    <string name="shareIntro">Hey there, I\'m reading this book recently:</string>
+    <string name="pages_read">Pages I\'ve read:</string>
+    <string name="of">out of</string>
+    <string name="promotion">You can organize your books using \"My Library\" too:\\n https://myket.ir/app/com.fmgames.library</string>
 
 </resources>
